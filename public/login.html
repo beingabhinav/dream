@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamScape AI - Sign In</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #17142f, #50366f 55%, #0f766e);
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: min(440px, 100%);
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 8px;
+            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+            padding: 32px;
+        }
+
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            color: var(--primary-color);
+        }
+
+        .auth-brand i {
+            font-size: 1.8rem;
+        }
+
+        .auth-brand h1 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .auth-tabs button,
+        .auth-form button {
+            border: 0;
+            cursor: pointer;
+        }
+
+        .auth-tab {
+            padding: 12px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+        }
+
+        .auth-tab.active {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .auth-form {
+            display: grid;
+            gap: 14px;
+        }
+
+        .auth-form.hidden {
+            display: none;
+        }
+
+        .input-field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .input-field label {
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .input-field input {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px 14px;
+            font: inherit;
+        }
+
+        .submit-btn {
+            margin-top: 8px;
+            border-radius: 6px;
+            padding: 13px 16px;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .auth-message {
+            min-height: 22px;
+            color: #b91c1c;
+            font-weight: 700;
+        }
+
+        .auth-message.success {
+            color: #047857;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 18px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <main class="auth-card">
+        <div class="auth-brand">
+            <i class="fas fa-moon"></i>
+            <h1>DreamScape AI</h1>
+        </div>
+
+        <div class="auth-tabs" role="tablist">
+            <button type="button" class="auth-tab active" id="loginTab">Login</button>
+            <button type="button" class="auth-tab" id="registerTab">Sign Up</button>
+        </div>
+
+        <p class="auth-message" id="authMessage" aria-live="polite"></p>
+
+        <form id="loginForm" class="auth-form">
+            <div class="input-field">
+                <label for="loginEmail">Email</label>
+                <input id="loginEmail" type="email" autocomplete="email" required>
+            </div>
+            <div class="input-field">
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" type="password" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+        <form id="registerForm" class="auth-form hidden">
+            <div class="input-field">
+                <label for="registerName">Name</label>
+                <input id="registerName" type="text" autocomplete="name" required>
+            </div>
+            <div class="input-field">
+                <label for="registerEmail">Email</label>
+                <input id="registerEmail" type="email" autocomplete="email" required>
+            </div>
+            <div class="input-field">
+                <label for="registerPassword">Password</label>
+                <input id="registerPassword" type="password" autocomplete="new-password" minlength="8" required>
+            </div>
+            <button type="submit" class="submit-btn">Create Account</button>
+        </form>
+
+        <a class="back-link" href="/"><i class="fas fa-arrow-left"></i> Back to DreamScape</a>
+    </main>
+
+    <script>
+        const API_URL = '/api';
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const authMessage = document.getElementById('authMessage');
+
+        loginTab.addEventListener('click', () => showForm('login'));
+        registerTab.addEventListener('click', () => showForm('register'));
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            setMessage('');
+
+            const response = await postJson('/login', {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            });
+
+            if (response.ok) {
+                localStorage.setItem('authToken', response.data.token);
+                window.location.href = '/';
+                return;
+            }
+
+            setMessage(response.data.message || 'Unable to log in.');
+        });
+
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            setMessage('');
+
+            const response = await postJson('/register', {
+                name: document.getElementById('registerName').value,
+                email: document.getElementById('registerEmail').value,
+                password: document.getElementById('registerPassword').value
+            });
+
+            if (response.ok) {
+                registerForm.reset();
+                showForm('login');
+                setMessage('Account created. Please log in.', true);
+                return;
+            }
+
+            setMessage(response.data.message || 'Unable to create account.');
+        });
+
+        function showForm(formName) {
+            const loginActive = formName === 'login';
+            loginForm.classList.toggle('hidden', !loginActive);
+            registerForm.classList.toggle('hidden', loginActive);
+            loginTab.classList.toggle('active', loginActive);
+            registerTab.classList.toggle('active', !loginActive);
+            setMessage('');
+        }
+
+        function setMessage(message, success = false) {
+            authMessage.textContent = message;
+            authMessage.classList.toggle('success', success);
+        }
+
+        async function postJson(path, body) {
+            try {
+                const response = await fetch(`${API_URL}${path}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await response.json().catch(() => ({}));
+                return { ok: response.ok, data };
+            } catch (error) {
+                return { ok: false, data: { message: 'Unable to reach the server.' } };
+            }
+        }
+    </script>
+</body>
+</html>

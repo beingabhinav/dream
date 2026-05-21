@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamScape AI | Dream Analysis & Continuation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">DreamScape AI</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#demo">Try It</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="stars"></div>
+        <div class="container">
+            <h1>Explore Your Subconscious Mind</h1>
+            <p>Our Dream Analysis AI interprets your dreams, continues your story, and helps you discover hidden meanings.</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="btn primary-btn">Analyze My Dream</a>
+                <a href="#features" class="btn secondary-btn">How It Works</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Unlock Your Dreams</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Psychological Analysis</h3>
+                    <p>Get insightful interpretations based on modern psychology and ancient symbolism.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Dream Continuation</h3>
+                    <p>Experience immersive story continuations of your dream in vivid, engaging detail.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Interactive Experience</h3>
+                    <p>Shape your dream journey through interactive follow-up questions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2>Try DreamScape AI</h2>
+            <div class="demo-content">
+                <div class="dream-input">
+                    <h3>Enter Your Dream</h3>
+                    <form id="dream-form">
+                        <textarea id="dream-description" placeholder="Describe your dream in detail... (Example: I was walking through an ancient forest at night, and the trees were glowing...)"></textarea>
+                        
+                        <div class="form-group">
+                            <label for="sleep-quality">How would you rate your sleep quality?</label>
+                            <select id="sleep-quality">
+                                <option value="excellent">Excellent</option>
+                                <option value="good">Good</option>
+                                <option value="average" selected>Average</option>
+                                <option value="poor">Poor</option>
+                                <option value="terrible">Terrible</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sleep-hours">Hours of sleep:</label>
+                            <input type="number" id="sleep-hours" min="0" max="24" step="0.5" value="7">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="feelings">How did you feel upon waking?</label>
+                            <input type="text" id="feelings" placeholder="Confused, happy, anxious, etc.">
+                        </div>
+                        
+                        <button type="submit" class="btn primary-btn">Analyze My Dream</button>
+                    </form>
+                </div>
+                
+                <div class="dream-result" id="dream-result">
+                    <div class="chat-header">
+                        <i class="fas fa-brain"></i>
+                        <h3>Dream Analysis Chat</h3>
+                    </div>
+                    <div class="chat-messages" id="analysis-messages">
+                        <div class="welcome-message">
+                            <i class="fas fa-moon"></i>
+                            <p>Share your dream, and I'll help you understand its deeper meaning...</p>
+                        </div>
+                    </div>
+                    <div class="chat-suggestions">
+                        <div class="suggestion-chips">
+                            <button type="button" class="suggestion-chip" data-analysis-suggestion="true">Tell me more about the symbols</button>
+                            <button type="button" class="suggestion-chip" data-analysis-suggestion="true">What does this dream suggest?</button>
+                            <button type="button" class="suggestion-chip" data-analysis-suggestion="true">Continue the dream</button>
+                            <button type="button" class="suggestion-chip" data-analysis-suggestion="true">Psychological meaning</button>
+                        </div>
+                    </div>
+                    <form id="analysis-chat-form" class="analysis-chat-input">
+                        <input type="text" id="analysis-query" placeholder="Ask about your dream interpretation...">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2>How DreamScape AI Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Share Your Dream</h3>
+                    <p>Tell us about your dream and provide context like sleep quality and emotions.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>AI Analysis</h3>
+                    <p>Our algorithm interprets symbols and emotions using psychological frameworks.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Dream Continuation</h3>
+                    <p>Experience an immersive extension of your dream narrative.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Interactive Journey</h3>
+                    <p>Answer questions to shape how your dream unfolds further.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About The Project</h2>
+            <div class="about-content">
+                <div class="about-text">
+                   
+                    <p>Our goal is to help users gain insights into their subconscious mind through dream analysis while providing an entertaining and interactive storytelling experience.</p>
+                    <p>The project combines techniques from natural language processing, psychological frameworks, and creative writing to deliver personalized dream interpretations.</p>
+                </div>
+                <div class="tech-stack">
+                    <h3>Technologies Used</h3>
+                    <ul>
+                        <li><span>Frontend:</span> HTML, CSS, JavaScript</li>
+                        <li><span>Backend:</span> Node.js and Express</li>
+                        <li><span>AI Model:</span> Rule-guided demo analysis engine</li>
+                        <li><span>Deployment:</span> Node-compatible hosting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">DreamScape AI</div>
+                <div class="footer-links">
+                    <a href="https://github.com/yourusername/dreamscape-ai"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; <span id="year"></span> DreamScape AI. Created for Hackathon.
+            </div>
+        </div>
+    </footer>
+
+    <button class="assistant-toggle">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <div class="chat-box">
+        <div class="chat-header">
+            <i class="fas fa-robot"></i>
+            <h3>Dream Assistant</h3>
+        </div>
+        <div class="chat-messages">
+            <div class="welcome-message">
+                <i class="fas fa-moon"></i>
+                <p>Hello! I'm your dream analysis assistant. How can I help you understand your dreams better?</p>
+            </div>
+        </div>
+        <div class="chat-suggestions">
+            <div class="suggestion-chips">
+                <button type="button" class="suggestion-chip" data-assistant-suggestion="true">What do recurring dreams mean?</button>
+                <button type="button" class="suggestion-chip" data-assistant-suggestion="true">Interpret my nightmare</button>
+                <button type="button" class="suggestion-chip" data-assistant-suggestion="true">Common dream symbols</button>
+                <button type="button" class="suggestion-chip" data-assistant-suggestion="true">How to lucid dream?</button>
+            </div>
+        </div>
+        <form id="assistant-form">
+            <input type="text" id="assistant-query" placeholder="Ask about your dreams...">
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
