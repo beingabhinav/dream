@@ -73,6 +73,12 @@ const server = app.listen(0, '127.0.0.1', async () => {
         }, login.body.token);
         assert(dream.status === 201 && dream.body.aiResponse, 'Dream submission failed');
 
+        const analysis = await request(port, '/api/analyze', 'POST', {
+            mode: 'assistant',
+            message: 'What do recurring dreams mean?'
+        });
+        assert(analysis.status === 200 && analysis.body.response, 'AI analysis failed');
+
         console.log('Smoke test passed');
     } catch (error) {
         console.error(error.message);

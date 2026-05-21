@@ -114,7 +114,7 @@ function initDreamAnalysis() {
             try {
                 state.isProcessing = true;
                 const typing = showAnalysisTyping();
-                const analysis = await generateDreamAnalysis();
+                const analysis = result.aiResponse || await generateDreamAnalysis();
                 typing.remove();
                 appendAnalysisMessage({ text: analysis, type: 'ai' });
                 updateAnalysisSuggestions(dreamData.description);
@@ -250,6 +250,26 @@ async function handleAssistantInput(message) {
         appendAssistantMessage('I am having trouble processing that request. Please try again.', 'bot error');
     } finally {
         state.assistantProcessing = false;
+    }
+}
+
+async function requestAiResponse(payload) {
+    try {
+        const response = await fetch(`${API_URL}/analyze`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(data.message || 'AI request failed');
+        }
+
+        return data.response;
+    } catch (error) {
+        console.warn('Using local AI fallback:', error.message);
+        return null;
     }
 }
 
@@ -407,6 +427,17 @@ function updateAssistantSuggestions(suggestions) {
 }
 
 async function generateDreamAnalysis() {
+    const aiResponse = await requestAiResponse({
+        mode: 'dream',
+        dreamData: {
+            description: state.currentDream,
+            ...state.context
+        },
+        conversationHistory: state.conversationHistory
+    });
+
+    if (aiResponse) return aiResponse;
+
     await wait(700);
     const dream = state.currentDream.toLowerCase();
     const context = state.context;
@@ -439,6 +470,18 @@ async function generateDreamAnalysis() {
 }
 
 async function generateFollowUpResponse(query) {
+    const aiResponse = await requestAiResponse({
+        mode: 'follow-up',
+        message: query,
+        dreamData: {
+            description: state.currentDream,
+            ...state.context
+        },
+        conversationHistory: state.conversationHistory
+    });
+
+    if (aiResponse) return aiResponse;
+
     await wait(500);
     const lower = query.toLowerCase();
 
@@ -462,6 +505,13 @@ async function generateFollowUpResponse(query) {
 }
 
 async function processAssistantMessage(message) {
+    const aiResponse = await requestAiResponse({
+        mode: 'assistant',
+        message
+    });
+
+    if (aiResponse) return aiResponse;
+
     await wait(500);
     const lower = message.toLowerCase();
 
